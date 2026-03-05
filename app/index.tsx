@@ -1,21 +1,25 @@
-import {useEffect} from "react";
-import {Text, View} from "react-native";
+import { useEffect, useState } from "react";
+import { Text, View } from "react-native";
+export default function Index() {
+  const [results, setResults] = useState<any[]>([]);
+  useEffect(() => {
+    console.log("Entraste en pantalla");
+    getPokemons();
+  }, []);
 
-export default function index(){
-    useEffect(() => {
-        console.log("entra en pantalla")
-    }, []);
-
-    const getPokemons = async () => { 
-        const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
-        const response = await fetch(URL);
-        const data = await response.json();
-        console.log(data);
-    };
-    return(
-        <View>
-            <Text>Angel</Text>
-        </View>
-
-    )
+  const getPokemons = async () => {
+    const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
+    const response = await fetch(URL);
+    const data = await response.json();
+    setResults(data.results);
+  };
+  return (
+    <View>
+      <Text>Moisex</Text>
+      <Text> {results[250]?.name} </Text>
+      {results.map((item) => {
+        return <Text key={item.name}>{item.name}</Text>
+      })}
+    </View>
+  );
 }
